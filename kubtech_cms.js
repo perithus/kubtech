@@ -277,6 +277,7 @@
     }).join("");
 
     const tagMarkup = tags.map((tag) => '<span class="project-chip">' + escapeHtml(tag) + "</span>").join("");
+    const projectId = escapeHtml(project.id);
 
     return (
       '<article class="project-card" data-category="' + escapeHtml((project.category || "").toLowerCase()) + '">' +
@@ -285,6 +286,10 @@
           '<h3 class="project-title">' + escapeHtml(project.title || "Nowa realizacja") + "</h3>" +
           '<p class="project-desc">' + escapeHtml(project.description || "Opis realizacji pojawi sie tutaj po zapisaniu projektu w CMS.") + "</p>" +
           '<div class="project-highlights">' + tagMarkup + "</div>" +
+          '<div class="project-actions">' +
+            '<button type="button" class="btn-secondary project-open-button" data-open-project="' + projectId + '">Zobacz cala realizacje</button>' +
+            '<span class="project-zoom-hint">Kliknij zdjecie, aby je powiekszyc.</span>' +
+          "</div>" +
         "</div>" +
         '<div class="' + galleryClass + '">' + imagesMarkup + "</div>" +
       "</article>"

@@ -575,6 +575,20 @@
       margin-top: 1.25rem;
     }
 
+    .project-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.9rem;
+      margin-top: 1.2rem;
+    }
+
+    .project-zoom-hint {
+      color: var(--muted);
+      font-size: 0.84rem;
+      line-height: 1.7;
+    }
+
     .project-gallery {
       display: grid;
       grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
@@ -821,6 +835,16 @@
     .footer-copy {
       font-size: 0.9rem;
       line-height: 1.7;
+    }
+
+    .footer-copy a {
+      color: rgba(255, 250, 244, 0.9);
+      text-decoration: none;
+    }
+
+    .footer-copy a:hover,
+    .footer-copy a:focus-visible {
+      text-decoration: underline;
     }
 
     .gallery-lightbox {
@@ -1395,7 +1419,7 @@
     <footer class="footer">
       <div class="container footer-inner">
         <div class="footer-logo">KUB<span>·</span>TECH</div>
-        <div class="footer-copy">Karol Kubiak · Meble na wymiar<br>© 2026 KUB-TECH. Wszelkie prawa zastrzeżone.</div>
+        <div class="footer-copy">Karol Kubiak · Meble na wymiar<br>© 2026 KUB-TECH. Wszelkie prawa zastrzeżone.<br>Created by <a href="https://linkedin.com/in/jakub-pietrus-32649a230/" target="_blank" rel="noopener noreferrer">Jakub Pietruś</a></div>
       </div>
     </footer>
   </div>
@@ -1656,6 +1680,12 @@
     });
 
     projectsGrid.addEventListener("click", (event) => {
+      const openButton = event.target.closest("[data-open-project]");
+      if (openButton) {
+        openLightbox(openButton.dataset.openProject, 0);
+        return;
+      }
+
       const shot = event.target.closest(".project-shot[data-project-id]");
       if (!shot) {
         return;
