@@ -1,36 +1,35 @@
 (function () {
-  const DB_NAME = "kubtech-cms";
-  const DB_VERSION = 1;
-  const STORE_NAME = "projects";
+  const PUBLIC_ENDPOINT = "cms-api.php";
+  const ADMIN_ENDPOINT = "cms-api.php";
   let renderedProjects = [];
 
   const defaultProjects = [
     {
       id: "default-kuchnia",
       category: "Kuchnia",
-      location: "Łęczyca",
-      title: "Nowoczesna kuchnia dla domu pod Łęczycą",
-      description: "Jasna zabudowa kuchenna wykonana pod konkretny układ pomieszczenia, z wygodną strefą roboczą, miejscem do przechowywania i spójnym wykończeniem frontów.",
-      tags: ["Dąb i beż", "Zabudowa AGD", "Na wymiar"],
+      location: "Leczyca",
+      title: "Nowoczesna kuchnia dla domu pod Leczyca",
+      description: "Jasna zabudowa kuchenna wykonana pod konkretny uklad pomieszczenia, z wygodna strefa robocza, miejscem do przechowywania i spojnym wykonczeniem frontow.",
+      tags: ["Debowe akcenty", "Zabudowa AGD", "Na wymiar"],
       createdAt: "2026-05-04T17:30:00.000Z",
       updatedAt: "2026-05-04T17:30:00.000Z",
       images: [
         {
           id: "default-kuchnia-1",
-          src: "https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&w=1200&q=80",
-          alt: "Główne ujęcie kuchni na wymiar z drewnianymi frontami",
-          label: "Widok główny"
+          src: "https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&w=1400&q=80",
+          alt: "Nowoczesna kuchnia na wymiar z drewnianymi frontami",
+          label: "Widok glowny"
         },
         {
           id: "default-kuchnia-2",
           src: "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=900&q=80",
-          alt: "Boczny kadr tej samej kuchni z wyspą",
+          alt: "Kuchnia na wymiar z wyspa i zabudowa robocza",
           label: "Strefa robocza"
         },
         {
           id: "default-kuchnia-3",
           src: "https://images.unsplash.com/photo-1556911220-bff31c812dba?auto=format&fit=crop&w=900&q=80",
-          alt: "Detal zabudowy i przechowywania w tej samej kuchni",
+          alt: "Detal zabudowy kuchennej i systemow przechowywania",
           label: "Detal zabudowy"
         },
         {
@@ -38,111 +37,82 @@
           src: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&w=900&q=80",
           alt: "Blat i strefa przygotowywania w kuchni na wymiar",
           label: "Blat"
-        },
-        {
-          id: "default-kuchnia-5",
-          src: "https://images.unsplash.com/photo-1556909212-d5b604d0c90d?auto=format&fit=crop&w=900&q=80",
-          alt: "Fronty i detale wykończenia kuchni na wymiar",
-          label: "Fronty"
         }
       ]
     },
     {
       id: "default-lazienka",
-      category: "Łazienka",
+      category: "Lazienka",
       location: "Zgierz",
-      title: "Zabudowa łazienkowa z miejscem do przechowywania",
-      description: "Zabudowa łazienkowa zaprojektowana z myślą o codziennym komforcie, odporności na wilgoć i estetycznym ukryciu najpotrzebniejszych rzeczy.",
-      tags: ["Odporność na wilgoć", "Spójne wykończenie", "Przechowywanie"],
+      title: "Zabudowa lazienkowa z miejscem do przechowywania",
+      description: "Zabudowa lazienkowa zaprojektowana z mysla o codziennym komforcie, odpornosci na wilgoc i estetycznym ukryciu najpotrzebniejszych rzeczy.",
+      tags: ["Wilgocioodporna plyta", "Spojne wykonczenie", "Przechowywanie"],
       createdAt: "2026-05-04T17:31:00.000Z",
       updatedAt: "2026-05-04T17:31:00.000Z",
       images: [
         {
           id: "default-lazienka-1",
-          src: "https://images.unsplash.com/photo-1620626011761-996317b8d101?auto=format&fit=crop&w=1200&q=80",
-          alt: "Główne ujęcie mebli łazienkowych na wymiar",
-          label: "Widok główny"
+          src: "https://images.unsplash.com/photo-1620626011761-996317b8d101?auto=format&fit=crop&w=1400&q=80",
+          alt: "Meble lazienkowe na wymiar z miejscem do przechowywania",
+          label: "Widok glowny"
         },
         {
           id: "default-lazienka-2",
           src: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=900&q=80",
-          alt: "Detal przechowywania i zabudowy w łazience",
-          label: "Detal frontów"
+          alt: "Detal frontow i zabudowy lazienkowej",
+          label: "Detal frontow"
         },
         {
           id: "default-lazienka-3",
-          src: "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=900&q=80",
-          alt: "Drugie ujęcie tej samej realizacji łazienkowej",
-          label: "Drugie ujęcie"
-        },
-        {
-          id: "default-lazienka-4",
           src: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=900&q=80",
-          alt: "Detal umywalki i zabudowy łazienkowej",
-          label: "Umywalka"
+          alt: "Szafka lazienkowa na wymiar pod umywalke",
+          label: "Szafka pod umywalke"
+        }
+      ]
+    },
+    {
+      id: "default-garderoba",
+      category: "Garderoba",
+      location: "Lodz",
+      title: "Garderoba pod skos z wykorzystaniem calej wysokosci",
+      description: "Projekt wykonany pod trudniejsza geometrie poddasza, z przegrodami, szufladami i strefa na dluzsze ubrania.",
+      tags: ["Pod skosem", "Szuflady", "Pelna wysokosc"],
+      createdAt: "2026-05-04T17:32:00.000Z",
+      updatedAt: "2026-05-04T17:32:00.000Z",
+      images: [
+        {
+          id: "default-garderoba-1",
+          src: "https://images.unsplash.com/photo-1556020685-ae41abfc9365?auto=format&fit=crop&w=1400&q=80",
+          alt: "Garderoba na wymiar z szufladami i oswietleniem",
+          label: "Widok glowny"
         },
         {
-          id: "default-lazienka-5",
-          src: "https://images.unsplash.com/photo-1600566752355-35792bedcfea?auto=format&fit=crop&w=900&q=80",
-          alt: "Przechowywanie w zabudowie łazienkowej",
-          label: "Przechowywanie"
+          id: "default-garderoba-2",
+          src: "https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?auto=format&fit=crop&w=900&q=80",
+          alt: "Wnetrze garderoby z podzialem na strefy przechowywania",
+          label: "Wnetrze zabudowy"
+        },
+        {
+          id: "default-garderoba-3",
+          src: "https://images.unsplash.com/photo-1560185008-b033106af5c3?auto=format&fit=crop&w=900&q=80",
+          alt: "System szuflad w garderobie na wymiar",
+          label: "System szuflad"
         }
       ]
     }
   ];
 
-  function supportsIndexedDb() {
-    return typeof indexedDB !== "undefined";
+  function escapeHtml(value) {
+    return String(value || "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
   }
 
-  function openDb() {
-    return new Promise((resolve, reject) => {
-      if (!supportsIndexedDb()) {
-        reject(new Error("IndexedDB is not supported in this browser."));
-        return;
-      }
-
-      const request = indexedDB.open(DB_NAME, DB_VERSION);
-
-      request.onupgradeneeded = () => {
-        const db = request.result;
-        if (!db.objectStoreNames.contains(STORE_NAME)) {
-          db.createObjectStore(STORE_NAME, { keyPath: "id" });
-        }
-      };
-
-      request.onsuccess = () => resolve(request.result);
-      request.onerror = () => reject(request.error || new Error("Cannot open database."));
-    });
-  }
-
-  async function withStore(mode, callback) {
-    const db = await openDb();
-    return new Promise((resolve, reject) => {
-      const transaction = db.transaction(STORE_NAME, mode);
-      const store = transaction.objectStore(STORE_NAME);
-      const result = callback(store, transaction);
-
-      transaction.oncomplete = () => {
-        db.close();
-        resolve(result);
-      };
-      transaction.onerror = () => {
-        db.close();
-        reject(transaction.error || new Error("Database transaction failed."));
-      };
-      transaction.onabort = () => {
-        db.close();
-        reject(transaction.error || new Error("Database transaction aborted."));
-      };
-    });
-  }
-
-  function requestToPromise(request) {
-    return new Promise((resolve, reject) => {
-      request.onsuccess = () => resolve(request.result);
-      request.onerror = () => reject(request.error || new Error("Request failed."));
-    });
+  function createId(prefix) {
+    return prefix + "-" + Math.random().toString(36).slice(2, 10);
   }
 
   function sortProjects(projects) {
@@ -153,53 +123,76 @@
     });
   }
 
-  async function getProjects() {
-    if (!supportsIndexedDb()) {
-      return [];
+  async function parseResponse(response) {
+    const text = await response.text();
+    let payload = null;
+
+    try {
+      payload = text ? JSON.parse(text) : {};
+    } catch (error) {
+      payload = { message: text || "Nieznana odpowiedz serwera." };
     }
 
-    const db = await openDb();
-    return new Promise((resolve, reject) => {
-      const transaction = db.transaction(STORE_NAME, "readonly");
-      const store = transaction.objectStore(STORE_NAME);
-      const request = store.getAll();
-
-      request.onsuccess = () => {
-        db.close();
-        resolve(sortProjects(request.result || []));
-      };
-      request.onerror = () => {
-        db.close();
-        reject(request.error || new Error("Cannot read projects."));
-      };
-    });
-  }
-
-  async function saveProject(project) {
-    const now = new Date().toISOString();
-    const payload = {
-      ...project,
-      id: project.id || createId("project"),
-      createdAt: project.createdAt || now,
-      updatedAt: now,
-      images: Array.isArray(project.images) ? project.images : []
-    };
-
-    await withStore("readwrite", (store) => {
-      store.put(payload);
-    });
+    if (!response.ok) {
+      const message = payload && payload.message ? payload.message : "Wystapil blad podczas komunikacji z serwerem.";
+      throw new Error(message);
+    }
 
     return payload;
   }
 
-  async function deleteProject(id) {
-    await withStore("readwrite", (store) => {
-      store.delete(id);
+  async function getProjects() {
+    const response = await fetch(PUBLIC_ENDPOINT, {
+      headers: {
+        "Accept": "application/json"
+      }
     });
+    const payload = await parseResponse(response);
+    return sortProjects(Array.isArray(payload.projects) ? payload.projects : []);
   }
 
-  function createId(prefix) {
-    return prefix + "-" + Math.random().toString(36).slice(2, 10);
+  async function loadProjectsWithFallback() {
+    try {
+      const projects = await getProjects();
+      return projects.length ? projects : defaultProjects;
+    } catch (error) {
+      return defaultProjects;
+    }
+  }
+
+  async function saveProject(project, csrfToken) {
+    const response = await fetch(ADMIN_ENDPOINT, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify({
+        action: "save",
+        csrfToken: csrfToken || "",
+        project: project
+      })
+    });
+
+    const payload = await parseResponse(response);
+    return payload.project;
+  }
+
+  async function deleteProject(id, csrfToken) {
+    const response = await fetch(ADMIN_ENDPOINT, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify({
+        action: "delete",
+        csrfToken: csrfToken || "",
+        id: id
+      })
+    });
+
+    return parseResponse(response);
   }
 
   function fileToImage(file) {
@@ -211,7 +204,7 @@
         image.onerror = reject;
         image.src = reader.result;
       };
-      reader.onerror = () => reject(reader.error || new Error("Cannot read file."));
+      reader.onerror = () => reject(reader.error || new Error("Nie udalo sie odczytac pliku."));
       reader.readAsDataURL(file);
     });
   }
@@ -221,7 +214,7 @@
       {
         maxWidth: 1800,
         maxHeight: 1400,
-        quality: 0.82
+        quality: 0.84
       },
       options || {}
     );
@@ -232,21 +225,18 @@
       settings.maxWidth / source.width,
       settings.maxHeight / source.height
     );
-
     const width = Math.round(source.width * ratio);
     const height = Math.round(source.height * ratio);
     const canvas = document.createElement("canvas");
+    const context = canvas.getContext("2d");
+
     canvas.width = width;
     canvas.height = height;
-
-    const context = canvas.getContext("2d");
     context.drawImage(source, 0, 0, width, height);
-
-    const src = canvas.toDataURL("image/jpeg", settings.quality);
 
     return {
       id: createId("image"),
-      src: src,
+      src: canvas.toDataURL("image/jpeg", settings.quality),
       alt: file.name.replace(/\.[^.]+$/, "").replace(/[-_]+/g, " "),
       label: "Widok"
     };
@@ -263,67 +253,42 @@
     return results;
   }
 
-  function escapeHtml(value) {
-    return String(value || "")
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#39;");
-  }
-
   function projectCardTemplate(project) {
     const allImages = Array.isArray(project.images) ? project.images : [];
-    const images = allImages.slice(0, 5);
-    const meta = [project.category, project.location].filter(Boolean).join(" · ");
+    const images = allImages.slice(0, 3);
     const totalImages = allImages.length;
+    const metaParts = [project.category, project.location].filter(Boolean);
     const tags = Array.isArray(project.tags) ? project.tags : [];
+    const galleryClass = "project-gallery count-" + Math.max(1, Math.min(images.length, 3));
 
     const imagesMarkup = images.map((image, index) => {
       const remaining = totalImages - images.length;
       const isLastVisible = index === images.length - 1;
       const label = remaining > 0 && isLastVisible
-        ? escapeHtml((image.label || "Więcej zdjęć") + " · +" + remaining)
-        : escapeHtml(image.label || (index === 0 ? "Widok główny" : "Ujęcie"));
+        ? (image.label || "Wiecej zdjec") + " · +" + remaining
+        : (image.label || (index === 0 ? "Widok glowny" : "Ujecie"));
 
       return (
-        '<figure class="project-shot' + (index === 0 ? " featured" : "") + '" role="button" tabindex="0" data-project-id="' + escapeHtml(project.id) + '" data-image-index="' + index + '">' +
-          '<img src="' + escapeHtml(image.src) + '" alt="' + escapeHtml(image.alt || project.title) + '">' +
-          '<figcaption class="project-shot-label">' + label + "</figcaption>" +
+        '<figure class="project-shot' + (index === 0 ? " featured" : " slot-" + (index + 1)) + '" role="button" tabindex="0" data-project-id="' + escapeHtml(project.id) + '" data-image-index="' + index + '">' +
+          '<img src="' + escapeHtml(image.src) + '" alt="' + escapeHtml(image.alt || project.title || "Realizacja mebli na wymiar") + '">' +
+          '<figcaption class="project-shot-label">' + escapeHtml(label) + "</figcaption>" +
         "</figure>"
       );
     }).join("");
 
-    const galleryMarkup = !images.length
-      ? '<div class="project-shot featured"><div class="project-shot-label">Dodaj zdjęcia realizacji</div></div>'
-      : imagesMarkup;
-
-    const tagsMarkup = tags.map((tag) => (
-      '<span class="project-chip">' + escapeHtml(tag) + "</span>"
-    )).join("");
+    const tagMarkup = tags.map((tag) => '<span class="project-chip">' + escapeHtml(tag) + "</span>").join("");
 
     return (
-      '<article class="project-card" data-project-id="' + escapeHtml(project.id) + '">' +
+      '<article class="project-card" data-category="' + escapeHtml((project.category || "").toLowerCase()) + '">' +
         '<div class="project-info">' +
-          '<div class="project-meta">' + escapeHtml(meta || "Realizacja") + "</div>" +
+          '<div class="project-meta">' + escapeHtml(metaParts.join(" · ") || "Realizacja") + "</div>" +
           '<h3 class="project-title">' + escapeHtml(project.title || "Nowa realizacja") + "</h3>" +
-          '<p class="project-desc">' + escapeHtml(project.description || "Dodaj opis realizacji w CMS-ie.") + "</p>" +
-          '<div class="project-highlights">' + tagsMarkup + "</div>" +
+          '<p class="project-desc">' + escapeHtml(project.description || "Opis realizacji pojawi sie tutaj po zapisaniu projektu w CMS.") + "</p>" +
+          '<div class="project-highlights">' + tagMarkup + "</div>" +
         "</div>" +
-        '<div class="project-gallery">' +
-          galleryMarkup +
-        "</div>" +
+        '<div class="' + galleryClass + '">' + imagesMarkup + "</div>" +
       "</article>"
     );
-  }
-
-  async function loadProjectsWithFallback() {
-    try {
-      const stored = await getProjects();
-      return stored.length ? stored : defaultProjects;
-    } catch (error) {
-      return defaultProjects;
-    }
   }
 
   async function renderProjects(containerOrSelector, projects) {
@@ -332,18 +297,19 @@
       : containerOrSelector;
 
     if (!container) {
-      return;
+      return [];
     }
 
     const records = projects || await loadProjectsWithFallback();
+    renderedProjects = records;
 
     if (!records.length) {
-      container.innerHTML = '<div class="project-card"><div class="project-info"><div class="project-meta">Brak realizacji</div><h3 class="project-title">Dodaj pierwszy projekt w CMS</h3><p class="project-desc">Po zapisaniu realizacji w panelu administracyjnym pojawią się tutaj automatycznie.</p></div></div>';
-      return;
+      container.innerHTML = '<div class="empty-projects">Brak realizacji do wyswietlenia.</div>';
+      return records;
     }
 
-    renderedProjects = records;
     container.innerHTML = records.map(projectCardTemplate).join("");
+    return records;
   }
 
   window.KubtechCMS = {
@@ -355,6 +321,8 @@
     filesToImages,
     createId,
     renderProjects,
-    getRenderedProjects: () => renderedProjects
+    getRenderedProjects: function () {
+      return renderedProjects;
+    }
   };
 })();

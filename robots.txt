@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /admin-login.php
+Disallow: /cms.php
+Disallow: /cms-api.php
+Disallow: /admin-logout.php
+
+Sitemap: https://kubtech-meble.pl/sitemap.xml
