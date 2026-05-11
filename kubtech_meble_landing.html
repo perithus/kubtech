@@ -1,0 +1,1876 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KUB-TECH | Meble na wymiar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f6f0e7;
+    --surface: #fffaf3;
+    --surface-strong: #f0e5d5;
+    --card: rgba(255, 250, 243, 0.9);
+    --text: #221d19;
+    --muted: #6a6058;
+    --line: rgba(74, 46, 20, 0.14);
+    --accent: #9a673d;
+    --accent-dark: #5a381d;
+    --accent-soft: #d8b38a;
+    --success: #2c6a4b;
+    --shadow: 0 20px 50px rgba(53, 35, 19, 0.12);
+    --serif: "Cormorant Garamond", Georgia, serif;
+    --sans: "Manrope", system-ui, sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--sans);
+    color: var(--text);
+    background:
+      radial-gradient(circle at top left, rgba(216, 179, 138, 0.35), transparent 28%),
+      linear-gradient(180deg, #fffaf3 0%, #f5eee4 45%, #f3eadf 100%);
+    overflow-x: hidden;
+  }
+
+  body.modal-open { overflow: hidden; }
+
+  img {
+    display: block;
+    max-width: 100%;
+  }
+
+  a { color: inherit; }
+
+  .page-shell {
+    position: relative;
+    min-height: 100vh;
+  }
+
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1.2rem 3rem;
+    background: rgba(255, 250, 243, 0.82);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(154, 103, 61, 0.1);
+  }
+
+  .nav-logo {
+    font-family: var(--serif);
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+
+  .nav-logo span { color: var(--accent); }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    text-decoration: none;
+    color: var(--muted);
+    font-size: 0.83rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    transition: color 0.2s ease;
+  }
+
+  .nav-links a:hover,
+  .nav-links a:focus-visible { color: var(--accent); }
+
+  .menu-toggle {
+    display: none;
+    width: 46px;
+    height: 46px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: rgba(255, 250, 243, 0.86);
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .menu-toggle span {
+    width: 20px;
+    height: 2px;
+    border-radius: 999px;
+    background: var(--text);
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
+
+  .menu-toggle.is-open span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+
+  .menu-toggle.is-open span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .menu-toggle.is-open span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  .nav-cta {
+    background: var(--accent);
+    color: #fff !important;
+    padding: 0.8rem 1.35rem;
+    border-radius: 999px;
+    box-shadow: 0 14px 28px rgba(154, 103, 61, 0.24);
+  }
+
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+    align-items: stretch;
+    padding: 7.25rem 3rem 3rem;
+    gap: 2rem;
+  }
+
+  .hero-left,
+  .hero-right {
+    border-radius: 32px;
+    overflow: hidden;
+    min-height: 720px;
+  }
+
+  .hero-left {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 4rem 4rem 3rem;
+    background:
+      linear-gradient(160deg, rgba(255, 250, 243, 0.96), rgba(243, 233, 220, 0.96)),
+      var(--surface);
+    box-shadow: var(--shadow);
+  }
+
+  .hero-left::after {
+    content: "";
+    position: absolute;
+    inset: auto -80px -120px auto;
+    width: 260px;
+    height: 260px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(154, 103, 61, 0.18), transparent 68%);
+    pointer-events: none;
+  }
+
+  .hero-tag,
+  .section-tag,
+  .contact-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 1.4rem;
+    color: var(--accent);
+    font-size: 0.76rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  .hero-tag::before,
+  .section-tag::before,
+  .contact-tag::before {
+    content: "";
+    width: 2rem;
+    height: 1px;
+    background: currentColor;
+  }
+
+  .hero-title,
+  .section-title,
+  .contact-title {
+    font-family: var(--serif);
+    font-size: clamp(3rem, 5vw, 5rem);
+    font-weight: 500;
+    line-height: 0.96;
+    letter-spacing: -0.03em;
+  }
+
+  .hero-title em,
+  .contact-title em {
+    color: var(--accent);
+    font-style: italic;
+    font-weight: 400;
+  }
+
+  .hero-desc {
+    max-width: 42ch;
+    margin: 1.6rem 0 2.3rem;
+    color: var(--muted);
+    font-size: 1.02rem;
+    line-height: 1.8;
+  }
+
+  .hero-actions,
+  .cta-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .btn-primary,
+  .btn-secondary,
+  .btn-ghost,
+  .btn-cookie,
+  .btn-cookie-light {
+    border: none;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    font-family: inherit;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 52px;
+    padding: 0.95rem 1.6rem;
+    border-radius: 999px;
+    font-size: 0.88rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .btn-primary {
+    background: var(--text);
+    color: #fff;
+  }
+
+  .btn-call {
+    gap: 0.75rem;
+    background: var(--accent);
+    box-shadow: 0 16px 32px rgba(154, 103, 61, 0.28);
+  }
+
+  .btn-call::before {
+    content: "☎";
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 999px;
+    background: rgba(255, 250, 243, 0.18);
+    font-size: 1rem;
+    line-height: 1;
+  }
+
+  .btn-call:hover {
+    background: var(--accent-dark);
+  }
+
+  .btn-primary:hover,
+  .btn-secondary:hover,
+  .btn-cookie:hover,
+  .btn-cookie-light:hover { transform: translateY(-1px); }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--line);
+  }
+
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid var(--text);
+    color: var(--text);
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+
+  .hero-stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--line);
+  }
+
+  .stat-card {
+    padding: 1rem 1rem 0 0;
+  }
+
+  .stat-num {
+    display: block;
+    margin-bottom: 0.3rem;
+    font-family: var(--serif);
+    font-size: clamp(2rem, 3vw, 2.6rem);
+    line-height: 1;
+  }
+
+  .stat-label {
+    color: var(--muted);
+    font-size: 0.76rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .hero-right {
+    position: relative;
+    box-shadow: var(--shadow);
+    background: #d9c3aa;
+  }
+
+  .hero-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(180deg, rgba(34, 29, 25, 0.12) 0%, rgba(34, 29, 25, 0.4) 100%),
+      linear-gradient(135deg, rgba(154, 103, 61, 0.18), transparent 45%);
+  }
+
+  .floating-badge {
+    position: absolute;
+    left: 1.6rem;
+    right: 1.6rem;
+    bottom: 1.6rem;
+    display: grid;
+    gap: 0.7rem;
+    max-width: 430px;
+    padding: 1.25rem 1.35rem;
+    background: rgba(255, 250, 243, 0.88);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 24px;
+    box-shadow: 0 18px 34px rgba(34, 29, 25, 0.16);
+    backdrop-filter: blur(12px);
+  }
+
+  .badge-kicker {
+    color: var(--accent);
+    font-size: 0.74rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .badge-main {
+    font-family: var(--serif);
+    font-size: 1.7rem;
+    line-height: 1;
+  }
+
+  .badge-sub {
+    color: var(--muted);
+    font-size: 0.93rem;
+    line-height: 1.6;
+  }
+
+  .section {
+    padding: 6rem 3rem;
+  }
+
+  .section-alt {
+    position: relative;
+    background: linear-gradient(180deg, rgba(240, 229, 213, 0.58), rgba(255, 250, 243, 0.92));
+  }
+
+  .section-header,
+  .contact-header {
+    max-width: 720px;
+    margin-bottom: 3rem;
+  }
+
+  .section-title {
+    font-size: clamp(2.4rem, 4vw, 3.6rem);
+    line-height: 1.02;
+  }
+
+  .section-lead {
+    margin-top: 1rem;
+    color: var(--muted);
+    font-size: 1rem;
+    line-height: 1.8;
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.2rem;
+  }
+
+  .service-card {
+    padding: 2rem;
+    border: 1px solid var(--line);
+    border-radius: 28px;
+    background: rgba(255, 250, 243, 0.85);
+    box-shadow: 0 8px 24px rgba(53, 35, 19, 0.05);
+  }
+
+  .service-icon {
+    width: 52px;
+    height: 52px;
+    margin-bottom: 1.35rem;
+    border-radius: 16px;
+    display: grid;
+    place-items: center;
+    background: rgba(154, 103, 61, 0.12);
+    color: var(--accent-dark);
+    font-size: 1.35rem;
+    font-weight: 700;
+  }
+
+  .service-title {
+    margin-bottom: 0.7rem;
+    font-family: var(--serif);
+    font-size: 1.65rem;
+    font-weight: 500;
+  }
+
+  .service-desc {
+    color: var(--muted);
+    line-height: 1.8;
+    font-size: 0.95rem;
+  }
+
+  .brands-strip {
+    margin-top: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+  }
+
+  .brand-chip {
+    padding: 0.75rem 1rem;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: rgba(255, 250, 243, 0.85);
+    color: var(--accent-dark);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .projects-grid {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .project-card {
+    display: grid;
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+    gap: 1.25rem;
+    padding: 1.25rem;
+    border: 1px solid var(--line);
+    border-radius: 30px;
+    background: rgba(255, 250, 243, 0.9);
+    box-shadow: var(--shadow);
+  }
+
+  .project-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 1rem;
+  }
+
+  .project-meta {
+    margin-bottom: 0.9rem;
+    color: var(--accent);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .project-title {
+    margin-bottom: 0.8rem;
+    font-family: var(--serif);
+    font-size: clamp(2rem, 3vw, 2.8rem);
+    font-weight: 500;
+    line-height: 1;
+  }
+
+  .project-desc {
+    max-width: 42ch;
+    color: var(--muted);
+    font-size: 0.96rem;
+    line-height: 1.8;
+  }
+
+  .project-highlights {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+    margin-top: 1.25rem;
+  }
+
+  .project-chip {
+    padding: 0.55rem 0.8rem;
+    border-radius: 999px;
+    background: rgba(154, 103, 61, 0.1);
+    color: var(--accent-dark);
+    font-size: 0.76rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .project-gallery {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr 1fr;
+    grid-template-rows: 260px 260px;
+    gap: 0.9rem;
+  }
+
+  .project-shot {
+    position: relative;
+    overflow: hidden;
+    border-radius: 24px;
+    background: #d6c1ac;
+    cursor: zoom-in;
+  }
+
+  .project-shot.featured {
+    grid-row: 1 / 3;
+  }
+
+  .project-shot:hover img,
+  .project-shot:focus-visible img {
+    transform: scale(1.035);
+  }
+
+  .project-shot img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.35s ease;
+  }
+
+  .project-shot::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 45%, rgba(34, 29, 25, 0.58) 100%);
+  }
+
+  .project-shot-label {
+    position: absolute;
+    left: 0.9rem;
+    bottom: 0.9rem;
+    z-index: 1;
+    padding: 0.5rem 0.75rem;
+    border-radius: 999px;
+    background: rgba(255, 250, 243, 0.9);
+    color: var(--text);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .gallery-lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 140;
+    display: none;
+    grid-template-columns: 72px minmax(0, 1fr) 72px;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    gap: 1rem;
+    padding: 1.5rem;
+    background: rgba(18, 15, 13, 0.88);
+    color: #fffaf3;
+  }
+
+  .gallery-lightbox.is-visible {
+    display: grid;
+  }
+
+  .lightbox-close {
+    grid-column: 3;
+    justify-self: end;
+  }
+
+  .lightbox-figure {
+    grid-column: 2;
+    grid-row: 2;
+    display: grid;
+    align-items: center;
+    justify-items: center;
+    min-width: 0;
+    min-height: 0;
+  }
+
+  .lightbox-image {
+    max-width: 100%;
+    max-height: 76vh;
+    border-radius: 18px;
+    object-fit: contain;
+    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.38);
+  }
+
+  .lightbox-caption {
+    margin-top: 1rem;
+    color: rgba(255, 250, 243, 0.86);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    text-align: center;
+  }
+
+  .lightbox-counter {
+    grid-column: 2;
+    grid-row: 3;
+    justify-self: center;
+    color: rgba(255, 250, 243, 0.68);
+    font-size: 0.86rem;
+  }
+
+  .lightbox-button {
+    width: 52px;
+    height: 52px;
+    border: 1px solid rgba(255, 250, 243, 0.24);
+    border-radius: 999px;
+    background: rgba(255, 250, 243, 0.08);
+    color: #fffaf3;
+    cursor: pointer;
+    font: inherit;
+    font-size: 1.8rem;
+    line-height: 1;
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+
+  .lightbox-button:hover,
+  .lightbox-button:focus-visible {
+    background: rgba(255, 250, 243, 0.18);
+    transform: translateY(-1px);
+  }
+
+  .lightbox-prev,
+  .lightbox-next {
+    grid-row: 2;
+    align-self: center;
+    justify-self: center;
+  }
+
+  .lightbox-prev { grid-column: 1; }
+  .lightbox-next { grid-column: 3; }
+
+  .process-steps {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .process-step {
+    padding: 2rem;
+    border-radius: 28px;
+    background: rgba(255, 250, 243, 0.86);
+    border: 1px solid var(--line);
+  }
+
+  .step-num {
+    display: inline-block;
+    margin-bottom: 1rem;
+    color: var(--accent-soft);
+    font-family: var(--serif);
+    font-size: 3rem;
+    line-height: 1;
+  }
+
+  .step-title {
+    margin-bottom: 0.6rem;
+    font-family: var(--serif);
+    font-size: 1.4rem;
+    font-weight: 500;
+  }
+
+  .step-desc {
+    color: var(--muted);
+    line-height: 1.75;
+    font-size: 0.94rem;
+  }
+
+  .contact-section {
+    padding: 6rem 3rem 7rem;
+    background: linear-gradient(180deg, #221d19 0%, #2e241c 100%);
+    color: #fffaf3;
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: 2rem;
+    align-items: start;
+  }
+
+  .contact-copy {
+    padding: 2rem 1rem 0 0;
+  }
+
+  .contact-title {
+    font-size: clamp(2.6rem, 4vw, 4rem);
+  }
+
+  .contact-desc {
+    max-width: 40ch;
+    margin: 1.2rem 0 2rem;
+    color: rgba(255, 250, 243, 0.7);
+    line-height: 1.8;
+    font-size: 1rem;
+  }
+
+  .contact-points {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .contact-point {
+    padding: 1rem 1.1rem;
+    border: 1px solid rgba(255, 250, 243, 0.12);
+    border-radius: 20px;
+    background: rgba(255, 250, 243, 0.04);
+  }
+
+  .contact-point strong {
+    display: block;
+    margin-bottom: 0.3rem;
+    font-size: 0.82rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent-soft);
+  }
+
+  .contact-point span,
+  .contact-point a {
+    color: rgba(255, 250, 243, 0.9);
+    text-decoration: none;
+    line-height: 1.6;
+  }
+
+  .contact-card {
+    padding: 2rem;
+    border-radius: 30px;
+    background: rgba(255, 250, 243, 0.96);
+    color: var(--text);
+    box-shadow: 0 22px 50px rgba(0, 0, 0, 0.18);
+  }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .form-field {
+    display: grid;
+    gap: 0.45rem;
+    margin-bottom: 1rem;
+  }
+
+  .form-field.full { grid-column: 1 / -1; }
+
+  .form-label {
+    font-size: 0.88rem;
+    font-weight: 700;
+  }
+
+  .form-input,
+  .form-textarea,
+  .toggle-input {
+    width: 100%;
+    border: 1px solid rgba(74, 46, 20, 0.16);
+    border-radius: 16px;
+    background: #fff;
+    color: var(--text);
+    font: inherit;
+  }
+
+  .form-input {
+    min-height: 52px;
+    padding: 0.9rem 1rem;
+  }
+
+  .form-textarea {
+    min-height: 146px;
+    padding: 1rem;
+    resize: vertical;
+  }
+
+  .form-input:focus,
+  .form-textarea:focus,
+  .toggle-input:focus {
+    outline: 2px solid rgba(154, 103, 61, 0.18);
+    border-color: rgba(154, 103, 61, 0.45);
+  }
+
+  .form-note {
+    margin-bottom: 1rem;
+    color: var(--muted);
+    font-size: 0.85rem;
+    line-height: 1.7;
+  }
+
+  .consents {
+    display: grid;
+    gap: 0.85rem;
+    margin: 1rem 0 1.4rem;
+  }
+
+  .consent-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    font-size: 0.88rem;
+    line-height: 1.65;
+    color: var(--muted);
+  }
+
+  .consent-item input {
+    margin-top: 0.25rem;
+    accent-color: var(--accent);
+    transform: scale(1.1);
+  }
+
+  .form-submit {
+    width: 100%;
+  }
+
+  .form-status {
+    display: none;
+    margin-top: 1rem;
+    padding: 0.9rem 1rem;
+    border-radius: 16px;
+    background: rgba(44, 106, 75, 0.1);
+    color: var(--success);
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+  .form-status.is-visible { display: block; }
+
+  footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    padding: 2rem 3rem;
+    background: #2e241c;
+    color: rgba(255, 250, 243, 0.72);
+  }
+
+  .footer-logo {
+    font-family: var(--serif);
+    font-size: 1.3rem;
+    color: #fffaf3;
+  }
+
+  .footer-logo span { color: var(--accent-soft); }
+
+  .footer-copy {
+    font-size: 0.88rem;
+    line-height: 1.7;
+  }
+
+  .cookie-banner {
+    position: fixed;
+    left: 1.25rem;
+    right: 1.25rem;
+    bottom: 1.25rem;
+    z-index: 120;
+    display: none;
+    grid-template-columns: 1.5fr auto;
+    gap: 1rem;
+    align-items: center;
+    padding: 1.25rem;
+    border: 1px solid rgba(154, 103, 61, 0.18);
+    border-radius: 24px;
+    background: rgba(255, 250, 243, 0.96);
+    box-shadow: 0 20px 50px rgba(34, 29, 25, 0.18);
+  }
+
+  .cookie-banner.is-visible { display: grid; }
+
+  .cookie-settings-fab {
+    position: fixed;
+    left: 1.25rem;
+    bottom: 1.25rem;
+    z-index: 121;
+    display: grid;
+    place-items: center;
+    width: 52px;
+    height: 52px;
+    border: 1px solid rgba(255, 250, 243, 0.2);
+    border-radius: 999px;
+    background: var(--text);
+    color: #fffaf3;
+    cursor: pointer;
+    font-size: 1.25rem;
+    line-height: 1;
+    box-shadow: 0 14px 32px rgba(34, 29, 25, 0.22);
+    transition: transform 0.2s ease, background 0.2s ease, opacity 0.2s ease;
+  }
+
+  .cookie-settings-fab:hover,
+  .cookie-settings-fab:focus-visible {
+    background: var(--accent-dark);
+    transform: translateY(-1px);
+  }
+
+  .cookie-settings-fab.is-hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .cookie-title {
+    margin-bottom: 0.35rem;
+    font-size: 1rem;
+    font-weight: 700;
+  }
+
+  .cookie-text {
+    color: var(--muted);
+    font-size: 0.9rem;
+    line-height: 1.65;
+  }
+
+  .cookie-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 0.75rem;
+  }
+
+  .btn-cookie,
+  .btn-cookie-light {
+    min-height: 46px;
+    padding: 0.8rem 1.1rem;
+    border-radius: 999px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .btn-cookie {
+    background: var(--text);
+    color: #fff;
+  }
+
+  .btn-cookie-light {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--line);
+  }
+
+  .cookie-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 130;
+    display: none;
+    place-items: center;
+    padding: 1.5rem;
+    background: rgba(19, 16, 14, 0.48);
+  }
+
+  .cookie-modal.is-visible { display: grid; }
+
+  .cookie-panel {
+    width: min(680px, 100%);
+    max-height: calc(100vh - 3rem);
+    overflow: auto;
+    padding: 2rem;
+    border-radius: 30px;
+    background: #fffaf3;
+    color: var(--text);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.22);
+  }
+
+  .cookie-panel h3 {
+    margin-bottom: 0.7rem;
+    font-family: var(--serif);
+    font-size: 2rem;
+    font-weight: 500;
+  }
+
+  .cookie-panel p {
+    color: var(--muted);
+    line-height: 1.75;
+  }
+
+  .cookie-groups {
+    display: grid;
+    gap: 1rem;
+    margin: 1.6rem 0;
+  }
+
+  .cookie-group {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: center;
+    padding: 1rem 1.1rem;
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    background: rgba(240, 229, 213, 0.4);
+  }
+
+  .cookie-group strong {
+    display: block;
+    margin-bottom: 0.3rem;
+    font-size: 0.96rem;
+  }
+
+  .cookie-group span {
+    display: block;
+    color: var(--muted);
+    font-size: 0.88rem;
+    line-height: 1.6;
+  }
+
+  .toggle {
+    position: relative;
+    width: 54px;
+    height: 30px;
+    flex-shrink: 0;
+  }
+
+  .toggle input {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+  }
+
+  .toggle-slider {
+    position: absolute;
+    inset: 0;
+    border-radius: 999px;
+    background: #d7cbbb;
+    transition: background 0.2s ease;
+  }
+
+  .toggle-slider::after {
+    content: "";
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #fff;
+    transition: transform 0.2s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  }
+
+  .toggle input:checked + .toggle-slider {
+    background: var(--accent);
+  }
+
+  .toggle input:checked + .toggle-slider::after {
+    transform: translateX(24px);
+  }
+
+  .toggle.is-disabled {
+    pointer-events: none;
+    opacity: 0.7;
+  }
+
+  .cookie-panel-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 0.8rem;
+  }
+
+  @media (max-width: 1100px) {
+    nav,
+    .hero,
+    .section,
+    .contact-section,
+    footer { padding-left: 1.5rem; padding-right: 1.5rem; }
+
+    .hero {
+      grid-template-columns: 1fr;
+      padding-top: 6.5rem;
+    }
+
+    .hero-left,
+    .hero-right { min-height: auto; }
+
+    .hero-right { min-height: 520px; }
+
+    .services-grid,
+    .process-steps,
+    .contact-grid { grid-template-columns: 1fr 1fr; }
+
+    .project-card {
+      grid-template-columns: 1fr;
+    }
+
+    .cookie-banner {
+      grid-template-columns: 1fr;
+    }
+
+    .cookie-actions { justify-content: flex-start; }
+  }
+
+  @media (max-width: 760px) {
+    nav {
+      justify-content: space-between;
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+    }
+
+    .menu-toggle {
+      display: inline-flex;
+    }
+
+    .nav-links {
+      position: absolute;
+      top: calc(100% + 1px);
+      left: 1rem;
+      right: 1rem;
+      width: 100%;
+      display: grid;
+      gap: 0.3rem;
+      padding: 0.9rem;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(255, 250, 243, 0.98);
+      box-shadow: 0 18px 36px rgba(53, 35, 19, 0.12);
+      opacity: 0;
+      transform: translateY(-8px);
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+    }
+
+    .nav-links.is-open {
+      opacity: 1;
+      transform: translateY(0);
+      visibility: visible;
+      pointer-events: auto;
+    }
+
+    .nav-links a {
+      display: block;
+      padding: 0.9rem 1rem;
+      border-radius: 12px;
+    }
+
+    .nav-cta {
+      text-align: center;
+    }
+
+    .hero-left,
+    .contact-card { padding: 1.5rem; }
+
+    .hero-title,
+    .contact-title,
+    .section-title { line-height: 1.04; }
+
+    .hero-stats,
+    .services-grid,
+    .process-steps,
+    .form-grid,
+    .contact-grid,
+    .project-gallery { grid-template-columns: 1fr; }
+
+    .hero-right { min-height: 420px; }
+
+    .project-gallery {
+      grid-template-rows: repeat(5, 220px);
+    }
+
+    .project-shot.featured {
+      grid-row: auto;
+    }
+
+    .gallery-lightbox {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto minmax(0, 1fr) auto auto;
+      padding: 1rem;
+    }
+
+    .lightbox-close {
+      grid-column: 2;
+    }
+
+    .lightbox-figure {
+      grid-column: 1 / -1;
+      grid-row: 2;
+    }
+
+    .lightbox-prev,
+    .lightbox-next {
+      grid-row: 3;
+    }
+
+    .lightbox-prev { grid-column: 1; }
+    .lightbox-next { grid-column: 2; }
+
+    .lightbox-counter {
+      grid-column: 1 / -1;
+      grid-row: 4;
+    }
+
+    .cookie-banner,
+    .cookie-panel { padding: 1.2rem; }
+
+    .cookie-group {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+
+    .contact-section {
+      padding-bottom: 8.5rem;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="page-shell">
+  <nav>
+    <div class="nav-logo">KUB<span>·</span>TECH</div>
+    <button class="menu-toggle" type="button" id="menuToggle" aria-label="Otwórz menu" aria-controls="mainMenu" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <ul class="nav-links" id="mainMenu">
+      <li><a href="#oferta">Oferta</a></li>
+      <li><a href="#realizacje">Realizacje</a></li>
+      <li><a href="#proces">Proces</a></li>
+      <li><a href="#kontakt" class="nav-cta">Napisz do nas</a></li>
+    </ul>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-left">
+      <div class="hero-tag">Meble na wymiar · Łęczyca i okolice</div>
+      <h1 class="hero-title">
+        Realizacje,
+        <em>które porządkują</em>
+        codzienne życie
+      </h1>
+      <p class="hero-desc">
+        Projektujemy i wykonujemy meble na wymiar do kuchni, łazienek, garderób i wnętrz prywatnych. Każda realizacja powstaje pod konkretny układ pomieszczenia, potrzeby domowników i styl całego domu.
+      </p>
+      <div class="hero-actions">
+        <a href="tel:+48723998100" class="btn-primary btn-call">Zadzwoń do nas · 723 998 100</a>
+        <a href="#realizacje" class="btn-secondary">Zobacz realizacje</a>
+        <a href="#kontakt" class="btn-ghost">Napisz do nas</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-card">
+          <span class="stat-num">8+</span>
+          <span class="stat-label">Lat doświadczenia</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num">100%</span>
+          <span class="stat-label">Projektów na wymiar</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num">3D</span>
+          <span class="stat-label">Wizualizacja przed produkcją</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <img
+        class="hero-photo"
+        src="https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&w=1400&q=80"
+        alt="Nowoczesna kuchnia na wymiar z drewnianymi frontami"
+      >
+      <div class="hero-overlay"></div>
+      <div class="floating-badge">
+        <div class="badge-kicker">Realizacja premium</div>
+        <div class="badge-main">Meble dopasowane do Twojego wnętrza</div>
+        <div class="badge-sub">Od pomiaru i projektu po produkcję, montaż oraz dopracowanie ostatnich detali.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="oferta">
+    <div class="section-header">
+      <div class="section-tag">Oferta</div>
+      <h2 class="section-title">Meble projektowane pod układ, styl i sposób użytkowania</h2>
+      <p class="section-lead">
+        Tworzymy zabudowy, które dobrze wyglądają, wygodnie działają i wykorzystują przestrzeń bez przypadkowych rozwiązań.
+      </p>
+    </div>
+
+    <div class="services-grid">
+      <article class="service-card">
+        <div class="service-icon">01</div>
+        <h3 class="service-title">Kuchnie na wymiar</h3>
+        <p class="service-desc">Układ szafek, ergonomia pracy, zabudowa AGD i maksymalne wykorzystanie przestrzeni w małych i dużych wnętrzach.</p>
+      </article>
+      <article class="service-card">
+        <div class="service-icon">02</div>
+        <h3 class="service-title">Szafy i garderoby</h3>
+        <p class="service-desc">Zabudowy wnękowe, przesuwne i garderobiane z przemyślanym podziałem półek, szuflad i stref przechowywania.</p>
+      </article>
+      <article class="service-card">
+        <div class="service-icon">03</div>
+        <h3 class="service-title">Meble do łazienki</h3>
+        <p class="service-desc">Szafki pod umywalki, słupki i zabudowy odporne na wilgoć, dopasowane do stylu i ograniczeń pomieszczenia.</p>
+      </article>
+    </div>
+
+    <div class="brands-strip" aria-label="Stosowane materiały i okucia">
+      <span class="brand-chip">Blum</span>
+      <span class="brand-chip">Hettich</span>
+      <span class="brand-chip">Rejs</span>
+      <span class="brand-chip">Peka</span>
+      <span class="brand-chip">Egger</span>
+      <span class="brand-chip">Kronospan</span>
+    </div>
+  </section>
+
+  <section class="section section-alt" id="realizacje">
+    <div class="section-header">
+      <div class="section-tag">Realizacje</div>
+      <h2 class="section-title">Wybrane realizacje z kilku perspektyw</h2>
+      <p class="section-lead">
+        Zobacz gotowe zabudowy pokazane szerzej: od ogólnego widoku wnętrza po detale frontów, uchwytów, blatów i przechowywania.
+      </p>
+    </div>
+
+    <div class="projects-grid" id="projectsGrid">
+      <article class="project-card">
+        <div class="project-info">
+          <div class="project-meta">Realizacja 01 · Kuchnia</div>
+          <h3 class="project-title">Nowoczesna kuchnia dla domu pod Łęczycą</h3>
+          <p class="project-desc">
+            Jedna realizacja pokazana z kilku perspektyw: szeroki plan, zabudowa robocza i detale strefy przechowywania. Taki układ pozwala pokazać spójność projektu, a nie pojedyncze losowe kadry.
+          </p>
+          <div class="project-highlights">
+            <span class="project-chip">Dąb i beż</span>
+            <span class="project-chip">Zabudowa AGD</span>
+            <span class="project-chip">Kilka ujęć jednej realizacji</span>
+          </div>
+        </div>
+        <div class="project-gallery">
+          <figure class="project-shot featured">
+            <img src="https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&w=1200&q=80" alt="Główne ujęcie kuchni na wymiar z drewnianymi frontami">
+            <figcaption class="project-shot-label">Widok główny</figcaption>
+          </figure>
+          <figure class="project-shot">
+            <img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=900&q=80" alt="Boczny kadr tej samej kuchni z wyspą">
+            <figcaption class="project-shot-label">Strefa robocza</figcaption>
+          </figure>
+          <figure class="project-shot">
+            <img src="https://images.unsplash.com/photo-1556911220-bff31c812dba?auto=format&fit=crop&w=900&q=80" alt="Detal zabudowy i przechowywania w tej samej kuchni">
+            <figcaption class="project-shot-label">Detal zabudowy</figcaption>
+          </figure>
+        </div>
+      </article>
+
+      <article class="project-card">
+        <div class="project-info">
+          <div class="project-meta">Realizacja 02 · Łazienka</div>
+          <h3 class="project-title">Zabudowa łazienkowa z miejscem do przechowywania</h3>
+          <p class="project-desc">
+            Zabudowa wykonana pod trudniejsze warunki użytkowania, z naciskiem na trwałość, wygodne przechowywanie i spójny wygląd całego pomieszczenia.
+          </p>
+          <div class="project-highlights">
+            <span class="project-chip">Odporność na wilgoć</span>
+            <span class="project-chip">Spójne wykończenie</span>
+            <span class="project-chip">Portfolio realizacji</span>
+          </div>
+        </div>
+        <div class="project-gallery">
+          <figure class="project-shot featured">
+            <img src="https://images.unsplash.com/photo-1620626011761-996317b8d101?auto=format&fit=crop&w=1200&q=80" alt="Główne ujęcie mebli łazienkowych na wymiar">
+            <figcaption class="project-shot-label">Widok główny</figcaption>
+          </figure>
+          <figure class="project-shot">
+            <img src="https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=900&q=80" alt="Detal przechowywania i zabudowy w łazience">
+            <figcaption class="project-shot-label">Detal frontów</figcaption>
+          </figure>
+          <figure class="project-shot">
+            <img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=900&q=80" alt="Drugie ujęcie tej samej realizacji łazienkowej">
+            <figcaption class="project-shot-label">Drugie ujęcie</figcaption>
+          </figure>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="section" id="proces">
+    <div class="section-header">
+      <div class="section-tag">Proces</div>
+      <h2 class="section-title">Od rozmowy do montażu bez zbędnego chaosu</h2>
+    </div>
+
+    <div class="process-steps">
+      <article class="process-step">
+        <div class="step-num">01</div>
+        <h3 class="step-title">Rozpoznanie potrzeb</h3>
+        <p class="step-desc">Ustalamy układ wnętrza, priorytety domowników, styl oraz budżet, żeby projekt od początku miał sens użytkowy.</p>
+      </article>
+      <article class="process-step">
+        <div class="step-num">02</div>
+        <h3 class="step-title">Projekt 3D</h3>
+        <p class="step-desc">Powstaje wizualizacja, dzięki której klient widzi proporcje, rozmieszczenie i materiały przed produkcją.</p>
+      </article>
+      <article class="process-step">
+        <div class="step-num">03</div>
+        <h3 class="step-title">Produkcja</h3>
+        <p class="step-desc">Materiały, fronty i okucia są dobierane pod trwałość, estetykę oraz komfort codziennego użytkowania.</p>
+      </article>
+      <article class="process-step">
+        <div class="step-num">04</div>
+        <h3 class="step-title">Montaż</h3>
+        <p class="step-desc">Końcowy etap to dopracowany montaż na miejscu i oddanie gotowej zabudowy gotowej do używania.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="contact-section" id="kontakt">
+    <div class="contact-grid">
+      <div class="contact-copy">
+        <div class="contact-tag">Kontakt</div>
+        <h2 class="contact-title">Opowiedz nam <em>o swoim projekcie</em></h2>
+        <p class="contact-desc">
+          Napisz, jakiej zabudowy potrzebujesz, w jakiej miejscowości ma powstać i na jakim etapie jest pomysł. Oddzwonimy, dopytamy o szczegóły i przygotujemy kolejne kroki.
+        </p>
+        <div class="contact-points">
+          <div class="contact-point">
+            <strong>Telefon</strong>
+            <a href="tel:+48723998100">723 998 100</a>
+          </div>
+          <div class="contact-point">
+            <strong>E-mail</strong>
+            <a href="mailto:kontakt@kubtech-meble.pl">kontakt@kubtech-meble.pl</a>
+          </div>
+          <div class="contact-point">
+            <strong>Obsługiwany obszar</strong>
+            <span>Łęczyca, Łódź, Ozorków, Zgierz i okolice</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-card">
+        <form id="contactForm">
+          <div class="form-grid">
+            <div class="form-field">
+              <label class="form-label" for="fullName">Imię i nazwisko</label>
+              <input class="form-input" id="fullName" name="fullName" type="text" autocomplete="name" required>
+            </div>
+            <div class="form-field">
+              <label class="form-label" for="phone">Telefon</label>
+              <input class="form-input" id="phone" name="phone" type="tel" autocomplete="tel" required>
+            </div>
+            <div class="form-field">
+              <label class="form-label" for="email">E-mail</label>
+              <input class="form-input" id="email" name="email" type="email" autocomplete="email">
+            </div>
+            <div class="form-field">
+              <label class="form-label" for="projectType">Rodzaj zabudowy</label>
+              <input class="form-input" id="projectType" name="projectType" type="text" placeholder="Np. kuchnia, szafa, łazienka">
+            </div>
+            <div class="form-field full">
+              <label class="form-label" for="message">Opisz projekt</label>
+              <textarea class="form-textarea" id="message" name="message" placeholder="Wymiary, termin, miejscowość, inspiracje, zakres prac"></textarea>
+            </div>
+          </div>
+
+          <p class="form-note">
+            Administratorem danych jest KUB-TECH. Po wysłaniu formularz przygotuje wiadomość e-mail w Twoim programie pocztowym.
+          </p>
+
+          <div class="consents">
+            <label class="consent-item">
+              <input type="checkbox" name="requiredConsent" required>
+              <span>Wyrażam zgodę na kontakt telefoniczny lub mailowy w celu przygotowania wyceny i odpowiedzi na moje zapytanie. Zgoda jest wymagana do obsługi formularza.</span>
+            </label>
+            <label class="consent-item">
+              <input type="checkbox" name="marketingConsent">
+              <span>Opcjonalnie wyrażam zgodę na otrzymywanie informacji handlowych dotyczących oferty KUB-TECH.</span>
+            </label>
+          </div>
+
+          <button class="btn-primary form-submit" type="submit">Wyślij zapytanie</button>
+          <div class="form-status" id="formStatus">Otworzyliśmy przygotowaną wiadomość e-mail. Sprawdź treść i wyślij ją ze swojego programu pocztowego.</div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-logo">KUB<span>·</span>TECH</div>
+    <div class="footer-copy">
+      Karol Kubiak · Meble na wymiar<br>
+      © 2026 KUB-TECH. Wszelkie prawa zastrzeżone.
+    </div>
+  </footer>
+</div>
+
+<div class="gallery-lightbox" id="galleryLightbox" aria-hidden="true">
+  <button type="button" class="lightbox-button lightbox-close" id="lightboxClose" aria-label="Zamknij podgląd">×</button>
+  <button type="button" class="lightbox-button lightbox-prev" id="lightboxPrev" aria-label="Poprzednie zdjęcie">‹</button>
+  <figure class="lightbox-figure">
+    <img class="lightbox-image" id="lightboxImage" src="" alt="">
+    <figcaption class="lightbox-caption" id="lightboxCaption"></figcaption>
+  </figure>
+  <button type="button" class="lightbox-button lightbox-next" id="lightboxNext" aria-label="Następne zdjęcie">›</button>
+  <div class="lightbox-counter" id="lightboxCounter"></div>
+</div>
+
+<button type="button" class="cookie-settings-fab" id="openCookieSettings" aria-label="Ustawienia cookies" title="Ustawienia cookies">&#9881;</button>
+
+<div class="cookie-banner" id="cookieBanner" aria-live="polite">
+  <div>
+    <div class="cookie-title">Ta strona korzysta z plików cookies</div>
+    <div class="cookie-text">
+      Niezbędne pliki pomagają w działaniu strony, a opcjonalne cookies analityczne i marketingowe można włączyć w ustawieniach.
+    </div>
+  </div>
+  <div class="cookie-actions">
+    <button type="button" class="btn-cookie-light" id="cookieEssential">Tylko niezbędne</button>
+    <button type="button" class="btn-cookie-light" id="cookieCustomize">Ustawienia</button>
+    <button type="button" class="btn-cookie" id="cookieAcceptAll">Akceptuj wszystkie</button>
+  </div>
+</div>
+
+<div class="cookie-modal" id="cookieModal" aria-hidden="true">
+  <div class="cookie-panel" role="dialog" aria-modal="true" aria-labelledby="cookieSettingsTitle">
+    <h3 id="cookieSettingsTitle">Ustawienia cookies</h3>
+    <p>
+      Możesz zdecydować, na które kategorie plików cookies wyrażasz zgodę. Niezbędne cookies pozostają aktywne, ponieważ są potrzebne do podstawowego działania strony.
+    </p>
+
+    <div class="cookie-groups">
+      <div class="cookie-group">
+        <div>
+          <strong>Niezbędne</strong>
+          <span>Zapamiętanie zgody na cookies i podstawowe działanie interfejsu.</span>
+        </div>
+        <label class="toggle is-disabled" aria-label="Niezbędne cookies są zawsze aktywne">
+          <input type="checkbox" checked disabled>
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+
+      <div class="cookie-group">
+        <div>
+          <strong>Analityczne</strong>
+          <span>Pozwalają mierzyć skuteczność strony i zachowanie użytkowników po wdrożeniu narzędzi analitycznych.</span>
+        </div>
+        <label class="toggle" aria-label="Włącz cookies analityczne">
+          <input type="checkbox" id="analyticsCookies">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+
+      <div class="cookie-group">
+        <div>
+          <strong>Marketingowe</strong>
+          <span>Przydadzą się, jeśli w przyszłości strona zostanie połączona z reklamami lub remarketingiem.</span>
+        </div>
+        <label class="toggle" aria-label="Włącz cookies marketingowe">
+          <input type="checkbox" id="marketingCookies">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+    </div>
+
+    <div class="cookie-panel-actions">
+      <button type="button" class="btn-cookie-light" id="closeCookieModal">Anuluj</button>
+      <button type="button" class="btn-cookie" id="saveCookieSettings">Zapisz ustawienia</button>
+    </div>
+  </div>
+</div>
+
+<script src="kubtech_cms.js"></script>
+<script>
+  const cookieBanner = document.getElementById("cookieBanner");
+  const cookieModal = document.getElementById("cookieModal");
+  const analyticsCookies = document.getElementById("analyticsCookies");
+  const marketingCookies = document.getElementById("marketingCookies");
+  const openCookieSettings = document.getElementById("openCookieSettings");
+  const contactForm = document.getElementById("contactForm");
+  const formStatus = document.getElementById("formStatus");
+  const menuToggle = document.getElementById("menuToggle");
+  const mainMenu = document.getElementById("mainMenu");
+  const projectsGrid = document.getElementById("projectsGrid");
+  const galleryLightbox = document.getElementById("galleryLightbox");
+  const lightboxImage = document.getElementById("lightboxImage");
+  const lightboxCaption = document.getElementById("lightboxCaption");
+  const lightboxCounter = document.getElementById("lightboxCounter");
+  const lightboxClose = document.getElementById("lightboxClose");
+  const lightboxPrev = document.getElementById("lightboxPrev");
+  const lightboxNext = document.getElementById("lightboxNext");
+
+  const COOKIE_KEY = "kubtech-cookie-settings";
+  let activeGalleryProject = null;
+  let activeGalleryIndex = 0;
+
+  function setMenuOpen(isOpen) {
+    menuToggle.classList.toggle("is-open", isOpen);
+    mainMenu.classList.toggle("is-open", isOpen);
+    menuToggle.setAttribute("aria-expanded", String(isOpen));
+    menuToggle.setAttribute("aria-label", isOpen ? "Zamknij menu" : "Otwórz menu");
+  }
+
+  function setBodyModalState(isOpen) {
+    document.body.classList.toggle("modal-open", isOpen);
+  }
+
+  function showCookieBanner() {
+    cookieBanner.classList.add("is-visible");
+    openCookieSettings?.classList.add("is-hidden");
+  }
+
+  function hideCookieBanner() {
+    cookieBanner.classList.remove("is-visible");
+    openCookieSettings?.classList.remove("is-hidden");
+  }
+
+  function openCookieModal() {
+    cookieModal.classList.add("is-visible");
+    cookieModal.setAttribute("aria-hidden", "false");
+    setBodyModalState(true);
+  }
+
+  function closeCookieModal() {
+    cookieModal.classList.remove("is-visible");
+    cookieModal.setAttribute("aria-hidden", "true");
+    setBodyModalState(false);
+  }
+
+  function getGalleryProject(projectId) {
+    return window.KubtechCMS
+      .getRenderedProjects()
+      .find((project) => project.id === projectId);
+  }
+
+  function updateLightbox() {
+    if (!activeGalleryProject || !activeGalleryProject.images.length) {
+      return;
+    }
+
+    const images = activeGalleryProject.images;
+    const image = images[activeGalleryIndex];
+    lightboxImage.src = image.src;
+    lightboxImage.alt = image.alt || activeGalleryProject.title || "Zdjęcie realizacji";
+    lightboxCaption.textContent = [activeGalleryProject.title, image.label].filter(Boolean).join(" · ");
+    lightboxCounter.textContent = (activeGalleryIndex + 1) + " / " + images.length;
+  }
+
+  function openLightbox(projectId, imageIndex) {
+    const project = getGalleryProject(projectId);
+    if (!project || !Array.isArray(project.images) || !project.images.length) {
+      return;
+    }
+
+    activeGalleryProject = project;
+    activeGalleryIndex = Math.max(0, Math.min(Number(imageIndex) || 0, project.images.length - 1));
+    updateLightbox();
+    galleryLightbox.classList.add("is-visible");
+    galleryLightbox.setAttribute("aria-hidden", "false");
+    setBodyModalState(true);
+    lightboxClose.focus();
+  }
+
+  function closeLightbox() {
+    galleryLightbox.classList.remove("is-visible");
+    galleryLightbox.setAttribute("aria-hidden", "true");
+    lightboxImage.src = "";
+    activeGalleryProject = null;
+    setBodyModalState(cookieModal.classList.contains("is-visible"));
+  }
+
+  function moveLightbox(step) {
+    if (!activeGalleryProject || !activeGalleryProject.images.length) {
+      return;
+    }
+
+    const total = activeGalleryProject.images.length;
+    activeGalleryIndex = (activeGalleryIndex + step + total) % total;
+    updateLightbox();
+  }
+
+  function saveCookieSettings(settings) {
+    localStorage.setItem(COOKIE_KEY, JSON.stringify(settings));
+    hideCookieBanner();
+    closeCookieModal();
+  }
+
+  function loadCookieSettings() {
+    const stored = localStorage.getItem(COOKIE_KEY);
+    if (!stored) {
+      showCookieBanner();
+      return;
+    }
+
+    try {
+      const parsed = JSON.parse(stored);
+      analyticsCookies.checked = Boolean(parsed.analytics);
+      marketingCookies.checked = Boolean(parsed.marketing);
+    } catch (error) {
+      showCookieBanner();
+    }
+  }
+
+  document.getElementById("cookieAcceptAll").addEventListener("click", () => {
+    analyticsCookies.checked = true;
+    marketingCookies.checked = true;
+    saveCookieSettings({ necessary: true, analytics: true, marketing: true });
+  });
+
+  document.getElementById("cookieEssential").addEventListener("click", () => {
+    analyticsCookies.checked = false;
+    marketingCookies.checked = false;
+    saveCookieSettings({ necessary: true, analytics: false, marketing: false });
+  });
+
+  document.getElementById("cookieCustomize").addEventListener("click", openCookieModal);
+  if (openCookieSettings) {
+    openCookieSettings.addEventListener("click", openCookieModal);
+  }
+  document.getElementById("closeCookieModal").addEventListener("click", closeCookieModal);
+
+  menuToggle.addEventListener("click", () => {
+    setMenuOpen(!mainMenu.classList.contains("is-open"));
+  });
+
+  mainMenu.addEventListener("click", (event) => {
+    if (event.target.closest("a")) {
+      setMenuOpen(false);
+    }
+  });
+
+  window.addEventListener("resize", () => {
+    if (window.innerWidth > 760) {
+      setMenuOpen(false);
+    }
+  });
+
+  document.getElementById("saveCookieSettings").addEventListener("click", () => {
+    saveCookieSettings({
+      necessary: true,
+      analytics: analyticsCookies.checked,
+      marketing: marketingCookies.checked
+    });
+  });
+
+  cookieModal.addEventListener("click", (event) => {
+    if (event.target === cookieModal) {
+      closeCookieModal();
+    }
+  });
+
+  projectsGrid.addEventListener("click", (event) => {
+    const shot = event.target.closest(".project-shot[data-project-id]");
+    if (!shot) {
+      return;
+    }
+
+    openLightbox(shot.dataset.projectId, shot.dataset.imageIndex);
+  });
+
+  projectsGrid.addEventListener("keydown", (event) => {
+    if (event.key !== "Enter" && event.key !== " ") {
+      return;
+    }
+
+    const shot = event.target.closest(".project-shot[data-project-id]");
+    if (!shot) {
+      return;
+    }
+
+    event.preventDefault();
+    openLightbox(shot.dataset.projectId, shot.dataset.imageIndex);
+  });
+
+  lightboxClose.addEventListener("click", closeLightbox);
+  lightboxPrev.addEventListener("click", () => moveLightbox(-1));
+  lightboxNext.addEventListener("click", () => moveLightbox(1));
+
+  galleryLightbox.addEventListener("click", (event) => {
+    if (event.target === galleryLightbox) {
+      closeLightbox();
+    }
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (!galleryLightbox.classList.contains("is-visible")) {
+      return;
+    }
+
+    if (event.key === "Escape") {
+      closeLightbox();
+    }
+
+    if (event.key === "ArrowLeft") {
+      moveLightbox(-1);
+    }
+
+    if (event.key === "ArrowRight") {
+      moveLightbox(1);
+    }
+  });
+
+  contactForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const formData = new FormData(contactForm);
+    const subject = "Zapytanie o meble na wymiar";
+    const body = [
+      "Imię i nazwisko: " + (formData.get("fullName") || ""),
+      "Telefon: " + (formData.get("phone") || ""),
+      "E-mail: " + (formData.get("email") || ""),
+      "Rodzaj zabudowy: " + (formData.get("projectType") || ""),
+      "",
+      "Opis projektu:",
+      formData.get("message") || "",
+      "",
+      "Zgoda na kontakt: tak",
+      "Zgoda marketingowa: " + (formData.get("marketingConsent") ? "tak" : "nie")
+    ].join("\n");
+
+    window.location.href = "mailto:kontakt@kubtech-meble.pl?subject="
+      + encodeURIComponent(subject)
+      + "&body="
+      + encodeURIComponent(body);
+
+    formStatus.classList.add("is-visible");
+  });
+
+  window.KubtechCMS.renderProjects(projectsGrid);
+  loadCookieSettings();
+</script>
+</body>
+</html>
